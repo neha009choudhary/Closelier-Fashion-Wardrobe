@@ -46,12 +46,12 @@ def allowed_file(filename):
 # DATABASE
 # ================================
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATABASE = os.path.join(BASE_DIR, "wardrobe.db")
+
 def get_db_connection():
-
-    connection = sqlite3.connect("wardrobe.db")
-
+    connection = sqlite3.connect(DATABASE)
     connection.row_factory = sqlite3.Row
-
     return connection
 
 
