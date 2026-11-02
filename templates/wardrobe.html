@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Wardrobe | Closelier</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <div class="dashboard">
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <div class="logo">
+                ✦
+                <span>CLOSELIER</span>
+            </div>
+
+            <nav class="sidebar-nav">
+
+                <a href="/dashboard" class="nav-item">
+                    <span>⌂</span>
+                    Dashboard
+                </a>
+
+                <a href="/wardrobe" class="nav-item active">
+                    <span>♡</span>
+                    My Wardrobe
+                </a>
+
+                <a href="/ai-styling" class="nav-item">
+                    <span>✦</span>
+                    AI Styling
+                </a>
+
+                <a href="/accessories" class="nav-item">
+                    <span>✧</span>
+                    Accessories
+                </a>
+
+                <a href="/weather-styling" class="nav-item">
+                    <span>☀</span>
+                    Weather Styling
+                </a>
+
+                <a href="/shopping-assistant" class="nav-item">
+                    <span>🛍</span>
+                    Shopping Assistant
+                </a>
+
+                <a href="/packing-planner" class="nav-item">
+                    <span>✈</span>
+                    Packing Planner
+                </a>
+
+                <a href="/saved-outfits" class="nav-item">
+                    <span>♡</span>
+                    Saved Outfits
+                </a>
+
+                <a href="/profile" class="nav-item">
+                    <span>☁</span>
+                    My Profile
+                </a>
+
+            </nav>
+
+            <div class="sidebar-bottom">
+
+                <a href="/logout" class="nav-item">
+                    <span>↪</span>
+                    Logout
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- Main Content -->
+
+        <main class="dashboard-main">
+
+            <!-- Page Header -->
+
+            <header class="dashboard-header">
+
+                <div>
+
+                    <p class="welcome-small">
+                        YOUR COLLECTION ✨
+                    </p>
+
+                    <h1>
+                        My Wardrobe
+                    </h1>
+
+                    <p class="header-description">
+                        Organize your clothes and build your digital wardrobe.
+                    </p>
+
+                </div>
+
+                <div class="profile-circle">
+                    N
+                </div>
+
+            </header>
+
+
+            <!-- Wardrobe Introduction -->
+
+            <section class="wardrobe-intro">
+
+                <div>
+
+                    <p class="card-label">
+                        DIGITAL CLOSET
+                    </p>
+
+                    <h2>
+                        Your Style Collection
+                    </h2>
+
+                    <p>
+                        Add your favorite clothes and keep everything organized
+                        in one beautiful digital wardrobe.
+                    </p>
+
+                </div>
+
+                <button
+                    class="add-item-button"
+                    onclick="showAddForm()"
+                >
+                    + Add Clothing
+                </button>
+
+            </section>
+
+
+            <!-- Wardrobe Items -->
+
+            {% if items %}
+
+                <section class="wardrobe-items">
+
+                    {% for item in items %}
+
+                        <div class="wardrobe-item-card">
+
+                            {% if item["image"] %}
+
+                                <div class="item-image">
+
+                                    <img
+                                        src="{{ url_for('static', filename='uploads/' + item['image']) }}"
+                                        alt="{{ item['name'] }}"
+                                    >
+
+                                </div>
+
+                            {% else %}
+
+                                <div class="item-image-placeholder">
+                                    ♡
+                                </div>
+
+                            {% endif %}
+
+
+                            <div class="item-details">
+
+                                <p class="item-category">
+                                    {{ item["category"] }}
+                                </p>
+
+                                <h3>
+                                    {{ item["name"] }}
+                                </h3>
+
+                                <p class="item-info">
+                                    {{ item["color"] }} · {{ item["occasion"] }}
+                                </p>
+
+
+                                <!-- Delete Button -->
+
+                                <div class="item-actions">
+
+                                    <button
+                                        type="button"
+                                        class="view-item-button"
+                                        onclick="viewItem(
+                                            '{{ item['name'] }}',
+                                            '{{ item['category'] }}',
+                                            '{{ item['color'] }}',
+                                            '{{ item['occasion'] }}',
+                                            {% if item['image'] %}
+                                                '{{ url_for('static', filename='uploads/' + item['image']) }}'
+                                            {% else %}
+                                                ''
+                                            {% endif %}
+                                        )"
+                                    >
+                                        View
+                                    </button>
+
+                                    <form
+                                        action="{{ url_for('delete_clothing', item_id=item['id']) }}"
+                                        method="POST"
+                                        class="delete-item-form"
+                                        onsubmit="return confirm('Are you sure you want to delete this clothing item?');"
+                                    >
+
+                                        <button
+                                            type="submit"
+                                            class="delete-item-button"
+                                        >
+                                            🗑 Delete
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                </section>
+
+            {% else %}
+
+                <!-- Empty Wardrobe -->
+
+                <section class="empty-wardrobe">
+
+                    <div class="empty-icon">
+                        ♡
+                    </div>
+
+                    <h2>
+                        Your wardrobe is empty
+                    </h2>
+
+                    <p>
+                        Start by adding your first clothing item.
+                    </p>
+
+                    <button
+                        class="empty-button"
+                        onclick="showAddForm()"
+                    >
+                        + Add Your First Item
+                    </button>
+
+                </section>
+
+            {% endif %}
+
+
+            <!-- Add Clothing Form -->
+
+            <section
+                class="add-clothing-form"
+                id="addClothingForm"
+                style="display: none;"
+            >
+
+                <div class="form-header">
+
+                    <div>
+
+                        <p class="card-label">
+                            NEW WARDROBE ITEM
+                        </p>
+
+                        <h2>
+                            Add Clothing
+                        </h2>
+
+                    </div>
+
+                    <button
+                        type="button"
+                        class="close-form"
+                        onclick="hideAddForm()"
+                    >
+                        ×
+                    </button>
+
+                </div>
+
+
+                <form
+                    action="/add-clothing"
+                    method="POST"
+                    enctype="multipart/form-data"
+                >
+
+                    <!-- Clothing Name -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Clothing Name
+                        </label>
+
+                        <input
+                            type="text"
+                            name="name"
+                            placeholder="Example: White Oversized Shirt"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Category -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Category
+                        </label>
+
+                        <select
+                            name="category"
+                            required
+                        >
+
+                            <option value="">
+                                Select category
+                            </option>
+
+                            <option value="Tops">
+                                Tops
+                            </option>
+
+                            <option value="Bottoms">
+                                Bottoms
+                            </option>
+
+                            <option value="Dresses">
+                                Dresses
+                            </option>
+
+                            <option value="Ethnic Wear">
+                                Ethnic Wear
+                            </option>
+
+                            <option value="Footwear">
+                                Footwear
+                            </option>
+
+                            <option value="Summer Style">
+                                Summer Style
+                            </option>
+
+                            <option value="Rainy Style">
+                                Rainy Style
+                            </option>
+
+                            <option value="Winter Style">
+                                Winter Style
+                            </option>
+
+                            <option value="Accessories">
+                                Accessories
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Color -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Color
+                        </label>
+
+                        <input
+                            type="text"
+                            name="color"
+                            placeholder="Example: White"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Occasion -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Occasion
+                        </label>
+
+                        <select
+                            name="occasion"
+                            required
+                        >
+
+                            <option value="">
+                                Select occasion
+                            </option>
+
+                            <option value="Casual">
+                                Casual
+                            </option>
+
+                            <option value="College">
+                                College
+                            </option>
+
+                            <option value="Party">
+                                Party
+                            </option>
+
+                            <option value="Traditional">
+                                Traditional
+                            </option>
+
+                            <option value="Formal">
+                                Formal
+                            </option>
+
+                            <option value="Travel">
+                                Travel
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Clothing Photo -->
+
+                    <div class="form-group image-upload-group">
+
+                        <label>
+                            Clothing Photo
+                        </label>
+
+                        <input
+                            type="file"
+                            name="image"
+                            accept="image/*"
+                        >
+
+                        <p class="upload-help">
+                            Upload a photo from your gallery or camera.
+                        </p>
+
+                    </div>
+
+
+                    <!-- Save -->
+
+                    <button
+                        type="submit"
+                        class="save-item-button"
+                    >
+                        Save Clothing
+                    </button>
+
+                </form>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <!-- View Clothing Popup -->
+
+    <div
+        class="view-item-modal"
+        id="viewItemModal"
+        style="display: none;"
+    >
+
+        <div class="view-item-box">
+
+            <button
+                type="button"
+                class="view-item-close"
+                onclick="closeViewItem()"
+            >
+                ×
+            </button>
+
+            <img
+                id="viewItemImage"
+                class="view-item-image"
+                src=""
+                alt="Clothing item"
+            >
+
+            <div class="view-item-content">
+
+                <p class="item-category" id="viewItemCategory"></p>
+
+                <h2 id="viewItemName"></h2>
+
+                <p>
+                    <strong>Color:</strong>
+                    <span id="viewItemColor"></span>
+                </p>
+
+                <p>
+                    <strong>Occasion:</strong>
+                    <span id="viewItemOccasion"></span>
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- JavaScript -->
+
+    <script>
+
+        function showAddForm() {
+
+            const form = document.getElementById("addClothingForm");
+
+            form.style.display = "block";
+
+            form.scrollIntoView({
+                behavior: "smooth"
+            });
+
+        }
+
+
+        function hideAddForm() {
+
+            const form = document.getElementById("addClothingForm");
+
+            form.style.display = "none";
+
+        }
+
+        function viewItem(name, category, color, occasion, image) {
+
+            document.getElementById("viewItemName").textContent = name;
+            document.getElementById("viewItemCategory").textContent = category;
+            document.getElementById("viewItemColor").textContent = color;
+            document.getElementById("viewItemOccasion").textContent = occasion;
+
+            const imageElement = document.getElementById("viewItemImage");
+
+            if (image) {
+                imageElement.src = image;
+                imageElement.style.display = "block";
+            } else {
+                imageElement.style.display = "none";
+            }
+
+            document.getElementById("viewItemModal").style.display = "flex";
+        }
+
+
+        function closeViewItem() {
+
+            document.getElementById("viewItemModal").style.display = "none";
+
+        }
+
+    </script>
+
+</body>
+
+</html>

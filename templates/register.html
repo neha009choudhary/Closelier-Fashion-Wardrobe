@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Account | Closelier Fashion Wardrobe</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <body>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+        <div class="flash-message">{{ message }}</div>
+    {% endfor %}
+    {% endwith %}
+
+    <!-- Keep your existing registration page code below -->
+
+    <div class="auth-page">
+
+        <div class="auth-card">
+
+            <div class="auth-logo">
+                ✦ CLOSELIER
+            </div>
+
+            <h1>Create your account</h1>
+
+            <p class="auth-subtitle">
+                Start building your personalized fashion wardrobe.
+            </p>
+
+            <form method="POST" action="/register">
+
+                <div class="auth-field">
+                    <label>Full Name</label>
+
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder="Enter your name"
+                        required
+                    >
+                </div>
+
+                <div class="auth-field">
+                    <label>Email</label>
+
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Enter your email"
+                        required
+                    >
+                </div>
+
+                <div class="auth-field">
+                    <label>Password</label>
+
+                    <div class="password-wrapper">
+
+                        <input
+                            type="password"
+                            name="password"
+                            id="register-password"
+                            placeholder="Create a password"
+                            minlength="8"
+                            pattern="(?=.*[A-Za-z])(?=.*[0-9]).{8,}"
+                            title="Password must be at least 8 characters long and contain at least one letter and one number."
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            onclick="togglePassword('register-password', this)"
+                        >
+                            👁
+                        </button>
+
+                    </div>
+                </div>
+
+                <div class="auth-field">
+                    <label>Confirm Password</label>
+
+                    <div class="password-wrapper">
+
+                        <input
+                            type="password"
+                            name="confirm_password"
+                            id="confirm-password"
+                            placeholder="Confirm your password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            onclick="togglePassword('confirm-password', this)"
+                        >
+                            👁
+                        </button>
+
+                    </div>
+                </div>
+
+                <button type="submit" class="auth-button">
+                    Create Account
+                </button>
+
+            </form>
+
+            <p class="auth-switch">
+                Already have an account?
+                <a href="/login">Login</a>
+            </p>
+
+            <a href="/" class="back-home">
+                ← Back to Home
+            </a>
+
+        </div>
+
+    </div>
+
+    <script>
+    function togglePassword(inputId, button) {
+
+        const input = document.getElementById(inputId);
+
+        if (input.type === "password") {
+            input.type = "text";
+            button.textContent = "🙈";
+        } else {
+            input.type = "password";
+            button.textContent = "👁";
+        }
+    }
+    </script>
+
+</body>
+</html>

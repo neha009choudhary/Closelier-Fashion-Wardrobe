@@ -1,0 +1,1651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>Packing Planner | Closelier</title>
+
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+
+    <style>
+
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        /* ================================
+        PAGE
+        ================================ */
+
+        body {
+            margin: 0;
+            background: #faf7f5;
+            color: #403640;
+        }
+
+        .main-content {
+            flex: 1;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .packing-page {
+            padding: 42px 48px 60px;
+            max-width: 1250px;
+            margin: auto;
+        }
+
+
+        /* ================================
+        PAGE HEADER
+        ================================ */
+
+        .page-intro {
+            margin-bottom: 28px;
+        }
+
+        .page-eyebrow {
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #9279a7;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .page-intro h1 {
+            font-size: 38px;
+            margin: 0;
+            font-weight: 600;
+            letter-spacing: -1px;
+            color: #403640;
+        }
+
+        .page-intro p {
+            margin-top: 9px;
+            color: #83777f;
+            font-size: 15px;
+        }
+
+
+        /* ================================
+        HERO
+        ================================ */
+
+        .packing-hero {
+            position: relative;
+            overflow: hidden;
+
+            background: #e7d9e8;
+
+            border: 1px solid #eadfea;
+            border-radius: 28px;
+
+            padding: 36px 40px;
+            margin-bottom: 28px;
+            min-height: 205px;
+
+            box-shadow: 0 12px 35px rgba(120, 90, 110, 0.08);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 720px;
+        }
+
+        .hero-content h2 {
+            margin: 0;
+            font-size: 29px;
+            font-weight: 600;
+            letter-spacing: -0.6px;
+            color: #443943;
+        }
+
+        .hero-content p {
+            margin: 12px 0 0;
+            color: #756b73;
+            font-size: 15px;
+            line-height: 1.7;
+            max-width: 650px;
+        }
+
+
+        /* Decorative travel elements */
+
+        .hero-accent {
+            position: absolute;
+
+            width: 155px;
+            height: 155px;
+
+            right: 48px;
+            top: 24px;
+
+            background: #fffdf8;
+            border-radius: 50%;
+
+            opacity: 0.85;
+        }
+
+        .hero-suitcase {
+            position: absolute;
+
+            right: 82px;
+            top: 53px;
+
+            width: 82px;
+            height: 92px;
+
+            background: #f3e6a5;
+            border-radius: 18px;
+
+            transform: rotate(4deg);
+
+            z-index: 2;
+
+            box-shadow: 0 8px 20px rgba(120, 90, 110, 0.08);
+        }
+
+        .hero-suitcase::before {
+            content: "";
+
+            position: absolute;
+
+            width: 30px;
+            height: 13px;
+
+            border: 4px solid #9279a7;
+            border-bottom: none;
+
+            border-radius: 10px 10px 0 0;
+
+            left: 22px;
+            top: -12px;
+        }
+
+        .hero-suitcase::after {
+            content: "✦";
+
+            position: absolute;
+
+            right: 12px;
+            top: 28px;
+
+            color: #e8d27a ;
+            font-size: 18px;
+        }
+
+        .travel-dot {
+            position: absolute;
+
+            width: 9px;
+            height: 9px;
+
+            border-radius: 50%;
+
+            background: #cfe3ea;
+
+            right: 225px;
+            top: 43px;
+        }
+
+        .travel-star {
+            position: absolute;
+
+            right: 208px;
+            bottom: 35px;
+
+            color: #c9aa8f;
+            font-size: 18px;
+        }
+
+
+        /* ================================
+        TRIP FORM CARD
+        ================================ */
+
+        .trip-card {
+            background: #fbf7f1;
+
+            border: 1px solid #eee4e5;
+            border-radius: 25px;
+
+            padding: 30px;
+
+            box-shadow: 0 10px 30px rgba(120, 90, 110, 0.06);
+        }
+
+        .card-heading {
+            margin-bottom: 24px;
+        }
+
+        .card-heading h3 {
+            margin: 0;
+
+            font-size: 21px;
+            font-weight: 600;
+
+            color: #443943;
+        }
+
+        .card-heading p {
+            margin: 6px 0 0;
+
+            color: #85808a;
+            font-size: 14px;
+        }
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full {
+            grid-column: span 2;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: 600;
+
+            margin-bottom: 8px;
+
+            color: #5f535b;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+
+            border: 1px solid #e5dadd;
+
+            background: #fffafa;
+
+            border-radius: 12px;
+
+            padding: 13px 14px;
+
+            font-family: inherit;
+            font-size: 14px;
+
+            color: #403640;
+
+            outline: none;
+
+            transition: 0.2s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #b69ac4;
+
+            background: #fff;
+
+            box-shadow: 0 0 0 3px #f3e9f5;
+        }
+
+        .form-group textarea {
+            min-height: 95px;
+            resize: vertical;
+        }
+
+        .generate-btn {
+            margin-top: 24px;
+
+            border: none;
+
+            background: #84699b;
+            color: white;
+
+            padding: 14px 23px;
+
+            border-radius: 13px;
+
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+
+            cursor: pointer;
+
+            box-shadow: 0 8px 20px rgba(132, 105, 155, 0.15);
+
+            transition: 0.25s ease;
+        }
+
+        .generate-btn:hover {
+            background: #735789;
+            transform: translateY(-2px);
+        }
+
+
+        /* ================================
+        CATEGORY SECTION
+        ================================ */
+
+        .section-title {
+            margin: 36px 0 16px;
+        }
+
+        .section-title h3 {
+            margin: 0;
+
+            font-size: 21px;
+            font-weight: 600;
+
+            color: #443943;
+        }
+
+        .section-title p {
+            margin: 6px 0 0;
+
+            color: #85808a;
+            font-size: 14px;
+        }
+
+        .category-grid {
+            display: grid;
+
+            grid-template-columns: repeat(4, 1fr);
+
+            gap: 16px;
+        }
+
+        .category-card {
+            background: #fffdfb;
+
+            border: 1px solid #eee4e5;
+            border-radius: 20px;
+
+            padding: 21px;
+
+            box-shadow: 0 8px 25px rgba(120, 90, 110, 0.045);
+
+            transition: 0.25s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-4px);
+
+            box-shadow: 0 12px 30px rgba(120, 90, 110, 0.08);
+        }
+
+        .category-icon {
+            width: 42px;
+            height: 42px;
+
+            border-radius: 13px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-bottom: 14px;
+
+            font-size: 19px;
+        }
+
+
+        /* Pastel category colors */
+
+        .category-card:nth-child(1) .category-icon {
+            background: #f0e6f6;
+        }
+
+        .category-card:nth-child(2) .category-icon {
+            background: #e7f1f5;
+        }
+
+        .category-card:nth-child(3) .category-icon {
+            background: #f8e6eb;
+        }
+
+        .category-card:nth-child(4) .category-icon {
+            background: #faf0d5;
+        }
+
+        .category-card:nth-child(5) .category-icon {
+            background: #e8f0f5;
+        }
+
+        .category-card:nth-child(6) .category-icon {
+            background: #eee8f7;
+        }
+
+        .category-card:nth-child(7) .category-icon {
+            background: #f7e7dc;
+        }
+
+        .category-card:nth-child(8) .category-icon {
+            background: #e7f1e9;
+        }
+
+        .category-card h4 {
+            margin: 0;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            color: #443943;
+        }
+
+        .category-card p {
+            margin: 5px 0 0;
+
+            color: #8a858d;
+
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+
+        /* ================================
+        INFO NOTE
+        ================================ */
+
+        .packing-note {
+            margin-top: 28px;
+
+            background: linear-gradient(
+                135deg,
+                #f2ecf7,
+                #fceff1
+            );
+
+            border: 1px solid #e6dbea;
+
+            border-radius: 18px;
+
+            padding: 18px 21px;
+
+            font-size: 13px;
+
+            color: #625a6c;
+
+            line-height: 1.6;
+
+            box-shadow: 0 8px 25px rgba(120, 90, 110, 0.04);
+        }
+
+
+        /* ================================
+        RESPONSIVE
+        ================================ */
+
+        @media (max-width: 900px) {
+
+            .packing-page {
+                padding: 30px 25px 50px;
+            }
+
+            .category-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero-suitcase,
+            .hero-accent,
+            .travel-dot,
+            .travel-star {
+                display: none;
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            .packing-page {
+                padding: 25px 18px 40px;
+            }
+
+            .page-intro h1 {
+                font-size: 30px;
+            }
+
+            .packing-hero {
+                padding: 27px 24px;
+            }
+
+            .hero-content h2 {
+                font-size: 25px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: span 1;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ================================
+        PACKING CATEGORY CARDS
+        ================================ */
+
+        .category-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .packing-category-card h4 {
+            font-size: 19px;
+            margin-bottom: 7px;
+            color: #403640;
+        }
+
+        .packing-category-card > p {
+            font-size: 13px;
+            color: #8a7d88;
+            margin-bottom: 18px;
+            line-height: 1.5;
+        }
+
+
+        /* ================================
+        THICK CIRCULAR PROGRESS RING
+        ================================ */
+
+        .progress-ring {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+
+            background: conic-gradient(
+                #8b6fa3 0deg,
+                #8b6fa3 0deg,
+                #eee8ef 0deg,
+                #eee8ef 360deg
+            );
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        /* Empty centre of the ring */
+        .progress-ring::before {
+            content: "";
+
+            position: absolute;
+
+            width: 36px;
+            height: 36px;
+
+            background: #fffdfb;
+            border-radius: 50%;
+        }
+
+        /* Percentage inside the ring */
+        .progress-ring span {
+            position: relative;
+            z-index: 2;
+
+            font-size: 10px;
+            font-weight: 700;
+
+            color: #6f587f;
+        }
+
+
+        /* ================================
+        CHECKLIST
+        ================================ */
+
+        .packing-checklist {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+            margin-bottom: 15px;
+        }
+
+        .packing-item {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+
+            padding: 9px 10px;
+
+            background: #faf7f5;
+            border-radius: 10px;
+
+            font-size: 13px;
+            color: #514650;
+
+            cursor: pointer;
+        }
+
+        .packing-item:hover {
+            background: #f4edf6;
+        }
+
+        .packing-checkbox {
+            width: 16px;
+            height: 16px;
+            accent-color: #8b6fa3;
+            cursor: pointer;
+        }
+
+        .packing-checkbox:checked + span {
+            text-decoration: line-through;
+            opacity: 0.55;
+        }
+
+
+        /* ================================
+        ADD CUSTOM ITEM
+        ================================ */
+
+        .add-custom-btn {
+            border: none;
+            background: transparent;
+
+            color: #806494;
+
+            font-size: 13px;
+            font-weight: 600;
+
+            cursor: pointer;
+
+            padding: 5px 0;
+        }
+
+        .add-custom-btn:hover {
+            color: #654b78;
+        }
+
+        .custom-item-box {
+            display: none;
+            gap: 7px;
+            margin-top: 9px;
+        }
+
+        .custom-item-box.show {
+            display: flex;
+        }
+
+        .custom-item-input {
+            flex: 1;
+
+            border: 1px solid #e2d8e3;
+            border-radius: 9px;
+
+            padding: 8px 10px;
+
+            font-size: 12px;
+            outline: none;
+        }
+
+        .custom-item-input:focus {
+            border-color: #a78bb7;
+        }
+
+        .save-custom-btn {
+            border: none;
+            border-radius: 9px;
+
+            padding: 8px 12px;
+
+            background: #8b6fa3;
+            color: white;
+
+            font-size: 12px;
+            font-weight: 600;
+
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+<div class="dashboard">
+
+    <!-- SIDEBAR -->
+
+
+    <aside class="sidebar">
+
+
+        <div class="logo">
+            ✦
+            <span>CLOSELIER</span>
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+
+            <a href="/dashboard" class="nav-item">
+                <span>⌂</span>
+                Dashboard
+            </a>
+
+
+            <a href="/wardrobe" class="nav-item">
+                <span>♡</span>
+                My Wardrobe
+            </a>
+
+
+            <a href="/ai-styling" class="nav-item">
+                <span>✦</span>
+                AI Styling
+            </a>
+
+
+            <a href="/accessories" class="nav-item">
+                <span>✧</span>
+                Accessories
+            </a>
+
+
+            <a href="/weather-styling" class="nav-item">
+                <span>☀</span>
+                Weather Styling
+            </a>
+
+
+            <a href="/shopping-assistant" class="nav-item">
+                <span>🛍</span>
+                Shopping Assistant
+            </a>
+
+
+            <a href="/packing-planner" class="nav-item active">
+                <span>✈</span>
+                Packing Planner
+            </a>
+
+            <a href="/saved-outfits" class="nav-item">
+                <span>♡</span>
+                Saved Outfits
+            </a>
+
+            <a href="/profile" class="nav-item">
+                <span>☁</span>
+                My Profile
+            </a>
+
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <a href="/logout" class="nav-item">
+                <span>↪</span>
+                Logout
+            </a>
+
+
+        </div>
+
+
+    </aside>
+
+
+
+
+    <!-- MAIN CONTENT -->
+
+
+    <main class="main-content">
+
+
+        <div class="packing-page">
+
+
+            <div class="page-intro">
+
+
+                <div class="page-eyebrow">
+                    TRIP PLANNING ✈
+                </div>
+
+
+                <h1>Packing Planner</h1>
+
+
+                <p>
+                    Plan your trip, organize what you need, and pack with confidence.
+                </p>
+
+
+            </div>
+
+
+
+
+            <!-- HERO -->
+
+
+            <section class="packing-hero">
+
+
+                <div class="hero-content">
+
+
+                    <h2>
+                        Where are you off to? ✈️
+                    </h2>
+
+
+                    <p>
+                        Got a trip on the calendar? Tell us the vibe, and we’ll get your
+                        packing sorted — from everyday essentials to the little things
+                        you definitely don’t want to forget.
+                    </p>
+
+
+                </div>
+
+
+                <div class="hero-accent"></div>
+                <div class="hero-suitcase"></div>
+                <div class="travel-dot"></div>
+                <div class="travel-star">✦</div>
+
+
+            </section>
+
+
+
+
+            <!-- TRIP FORM -->
+
+
+            <section class="trip-card">
+
+
+                <div class="card-heading">
+
+
+                    <h3>Tell us about your trip</h3>
+
+
+                    <p>
+                        Add a few details and we’ll build your packing plan.
+                    </p>
+
+
+                </div>
+
+
+                <form method="POST">
+
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+
+                            <label for="destination">
+                                Destination
+                            </label>
+
+
+                            <input
+                                type="text"
+                                id="destination"
+                                name="destination"
+                                placeholder="e.g. Goa, Manali, Jaipur"
+                                required
+                            >
+
+
+                        </div>
+
+
+
+
+                        <div class="form-group">
+
+
+                            <label for="trip_type">
+                                Trip Type
+                            </label>
+
+
+                            <select
+                                id="trip_type"
+                                name="trip_type"
+                                required
+                            >
+
+
+                                <option value="">
+                                    Select trip type
+                                </option>
+
+
+                                <option value="Vacation">
+                                    Vacation
+                                </option>
+
+
+                                <option value="Business">
+                                    Business
+                                </option>
+
+
+                                <option value="College">
+                                    College Trip
+                                </option>
+
+
+                                <option value="Casual">
+                                    Casual Trip
+                                </option>
+
+
+                                <option value="Other">
+                                    Other
+                                </option>
+
+
+                            </select>
+
+
+                        </div>
+
+
+
+
+                        <div class="form-group">
+
+
+                            <label for="start_date">
+                                Start Date
+                            </label>
+
+
+                            <input
+                                type="date"
+                                id="start_date"
+                                name="start_date"
+                                required
+                            >
+
+
+                        </div>
+
+
+
+
+                        <div class="form-group">
+
+
+                            <label for="end_date">
+                                End Date
+                            </label>
+
+
+                            <input
+                                type="date"
+                                id="end_date"
+                                name="end_date"
+                                required
+                            >
+
+
+                        </div>
+
+
+
+
+                        <div class="form-group full">
+
+
+                            <label for="activities">
+                                Activities
+                            </label>
+
+
+                            <textarea
+                                id="activities"
+                                name="activities"
+                                placeholder="e.g. Beach day, sightseeing, dinner, hiking..."
+                            ></textarea>
+
+
+                        </div>
+
+
+                    </div>
+
+
+
+
+                    <button
+                        type="submit"
+                        class="generate-btn"
+                    >
+                        ✦ Generate Packing Plan
+                    </button>
+
+
+                </form>
+
+
+            </section>
+
+            <!-- ================================
+                PACKING CATEGORIES
+            ================================ -->
+
+            {% if packing_list %}
+
+            <div class="section-title">
+                <h3>Your Packing Checklist</h3>
+                <p>Check things off as you pack for your trip.</p>
+            </div>
+
+            <div class="category-grid">
+
+                <!-- CLOTHING -->
+                <div class="category-card packing-category-card" data-category="Clothing">
+
+                    <div class="category-top">
+                        <div class="category-icon">👗</div>
+
+                        <div class="progress-ring" id="circle-Clothing">
+                            <span>0%</span>
+                        </div>
+                    </div>
+
+                    <h4>Clothing</h4>
+                    <p>Outfits, nightwear, innerwear and more.</p>
+
+                    <div class="packing-checklist">
+
+                        {% for item in packing_list['Clothing'] %}
+                        <label class="packing-item">
+                            <input type="checkbox" class="packing-checkbox">
+                            <span>{{ item }}</span>
+                        </label>
+                        {% endfor %}
+
+                    </div>
+
+                    <button type="button"
+                            class="add-custom-btn"
+                            data-category="Clothing">
+                        ＋ Add custom item
+                    </button>
+
+                    <div class="custom-item-box" id="custom-Clothing">
+                        <input type="text"
+                            class="custom-item-input"
+                            placeholder="Add clothing item">
+
+                        <button type="button" class="save-custom-btn">
+                            Add
+                        </button>
+                    </div>
+
+                </div>
+
+
+                <!-- FOOTWEAR -->
+                <div class="category-card packing-category-card" data-category="Footwear">
+
+                    <div class="category-top">
+                        <div class="category-icon">👟</div>
+
+                        <div class="progress-ring" id="circle-Footwear">
+                            <span>0%</span>
+                        </div>
+                    </div>
+
+                    <h4>Footwear</h4>
+                    <p>Shoes, sandals and trip-friendly footwear.</p>
+
+                    <div class="packing-checklist">
+
+                        {% for item in packing_list['Footwear'] %}
+                        <label class="packing-item">
+                            <input type="checkbox" class="packing-checkbox">
+                            <span>{{ item }}</span>
+                        </label>
+                        {% endfor %}
+
+                    </div>
+
+                    <button type="button"
+                            class="add-custom-btn"
+                            data-category="Footwear">
+                        ＋ Add custom item
+                    </button>
+
+                    <div class="custom-item-box" id="custom-Footwear">
+                        <input type="text"
+                            class="custom-item-input"
+                            placeholder="Add footwear item">
+
+                        <button type="button" class="save-custom-btn">
+                            Add
+                        </button>
+                    </div>
+
+                </div>
+
+
+                <!-- ACCESSORIES -->
+                <div class="category-card packing-category-card" data-category="Accessories">
+
+                    <div class="category-top">
+                        <div class="category-icon">👜</div>
+
+                        <div class="progress-ring" id="circle-Accessories">
+                            <span>0%</span>
+                        </div>
+                    </div>
+
+                    <h4>Accessories</h4>
+                    <p>Sunglasses, bags, hats and little extras.</p>
+
+                    <div class="packing-checklist">
+
+                        {% for item in packing_list['Accessories'] %}
+                        <label class="packing-item">
+                            <input type="checkbox" class="packing-checkbox">
+                            <span>{{ item }}</span>
+                        </label>
+                        {% endfor %}
+
+                    </div>
+
+                    <button type="button"
+                            class="add-custom-btn"
+                            data-category="Accessories">
+                        ＋ Add custom item
+                    </button>
+
+                    <div class="custom-item-box" id="custom-Accessories">
+                        <input type="text"
+                            class="custom-item-input"
+                            placeholder="Add accessory">
+
+                        <button type="button" class="save-custom-btn">
+                            Add
+                        </button>
+                    </div>
+
+                </div>
+
+
+                <!-- TOILETRIES -->
+                <div class="category-card packing-category-card" data-category="Toiletries">
+
+                    <div class="category-top">
+                        <div class="category-icon">🧴</div>
+
+                        <div class="progress-ring" id="circle-Toiletries">
+                            <span>0%</span>
+                        </div>
+                    </div>
+
+                    <h4>Toiletries</h4>
+                    <p>Personal care and everyday essentials.</p>
+
+                    <div class="packing-checklist">
+
+                        {% for item in packing_list['Toiletries'] %}
+                        <label class="packing-item">
+                            <input type="checkbox" class="packing-checkbox">
+                            <span>{{ item }}</span>
+                        </label>
+                        {% endfor %}
+
+                    </div>
+
+                    <button type="button"
+                            class="add-custom-btn"
+                            data-category="Toiletries">
+                        ＋ Add custom item
+                    </button>
+
+                    <div class="custom-item-box" id="custom-Toiletries">
+                        <input type="text"
+                            class="custom-item-input"
+                            placeholder="Add toiletry">
+
+                        <button type="button" class="save-custom-btn">
+                            Add
+                        </button>
+                    </div>
+
+                </div>
+
+
+                <!-- ELECTRONICS -->
+                <div class="category-card packing-category-card" data-category="Electronics">
+
+                    <div class="category-top">
+                        <div class="category-icon">📱</div>
+
+                        <div class="progress-ring" id="circle-Electronics">
+                            <span>0%</span>
+                        </div>
+                    </div>
+
+                    <h4>Electronics</h4>
+                    <p>Chargers, power banks and useful tech.</p>
+
+                    <div class="packing-checklist">
+
+                        {% for item in packing_list['Electronics'] %}
+                        <label class="packing-item">
+                            <input type="checkbox" class="packing-checkbox">
+                            <span>{{ item }}</span>
+                        </label>
+                        {% endfor %}
+
+                    </div>
+
+                    <button type="button"
+                            class="add-custom-btn"
+                            data-category="Electronics">
+                        ＋ Add custom item
+                    </button>
+
+                    <div class="custom-item-box" id="custom-Electronics">
+                        <input type="text"
+                            class="custom-item-input"
+                            placeholder="Add electronic">
+
+                        <button type="button" class="save-custom-btn">
+                            Add
+                        </button>
+                    </div>
+
+                </div>
+
+
+                <!-- DOCUMENTS -->
+                <div class="category-card packing-category-card" data-category="Documents">
+
+                    <div class="category-top">
+                        <div class="category-icon">🪪</div>
+
+                        <div class="progress-ring" id="circle-Documents">
+                            <span>0%</span>
+                        </div>
+                    </div>
+
+                    <h4>Documents</h4>
+                    <p>ID cards, tickets and important documents.</p>
+
+                    <div class="packing-checklist">
+
+                        {% for item in packing_list['Documents'] %}
+                        <label class="packing-item">
+                            <input type="checkbox" class="packing-checkbox">
+                            <span>{{ item }}</span>
+                        </label>
+                        {% endfor %}
+
+                    </div>
+
+                    <button type="button"
+                            class="add-custom-btn"
+                            data-category="Documents">
+                        ＋ Add custom item
+                    </button>
+
+                    <div class="custom-item-box" id="custom-Documents">
+                        <input type="text"
+                            class="custom-item-input"
+                            placeholder="Add document">
+
+                        <button type="button" class="save-custom-btn">
+                            Add
+                        </button>
+                    </div>
+
+                </div>
+
+
+                <!-- TRAVEL ESSENTIALS -->
+                <div class="category-card packing-category-card" data-category="Travel Essentials">
+
+                    <div class="category-top">
+                        <div class="category-icon">🧳</div>
+
+                        <div class="progress-ring" id="circle-Travel-Essentials">
+                            <span>0%</span>
+                        </div>
+                    </div>
+
+                    <h4>Travel Essentials</h4>
+                    <p>Items that make your journey easier.</p>
+
+                    <div class="packing-checklist">
+
+                        {% for item in packing_list['Travel Essentials'] %}
+                        <label class="packing-item">
+                            <input type="checkbox" class="packing-checkbox">
+                            <span>{{ item }}</span>
+                        </label>
+                        {% endfor %}
+
+                    </div>
+
+                    <button type="button"
+                            class="add-custom-btn"
+                            data-category="Travel Essentials">
+                        ＋ Add custom item
+                    </button>
+
+                    <div class="custom-item-box" id="custom-Travel-Essentials">
+                        <input type="text"
+                            class="custom-item-input"
+                            placeholder="Add travel item">
+
+                        <button type="button" class="save-custom-btn">
+                            Add
+                        </button>
+                    </div>
+
+                </div>
+
+
+                <!-- PERSONAL ESSENTIALS -->
+                <div class="category-card packing-category-card" data-category="Personal Essentials">
+
+                    <div class="category-top">
+                        <div class="category-icon">♡</div>
+
+                        <div class="progress-ring" id="circle-Personal-Essentials">
+                            <span>0%</span>
+                        </div>
+                    </div>
+
+                    <h4>Personal Essentials</h4>
+                    <p>Anything personal you don't want to forget.</p>
+
+                    <div class="packing-checklist">
+
+                        {% for item in packing_list['Personal Essentials'] %}
+                        <label class="packing-item">
+                            <input type="checkbox" class="packing-checkbox">
+                            <span>{{ item }}</span>
+                        </label>
+                        {% endfor %}
+
+                    </div>
+
+                    <button type="button"
+                            class="add-custom-btn"
+                            data-category="Personal Essentials">
+                        ＋ Add custom item
+                    </button>
+
+                    <div class="custom-item-box" id="custom-Personal-Essentials">
+                        <input type="text"
+                            class="custom-item-input"
+                            placeholder="Add personal item">
+
+                        <button type="button" class="save-custom-btn">
+                            Add
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+        
+            <div class="packing-note">
+
+
+                ✦ <strong>How it works:</strong>
+                Tell us about your trip, generate your packing plan,
+                and check things off as you pack. Later, your wardrobe can
+                help identify items you may still need.
+
+
+            </div>
+
+
+        </div>
+
+
+    </main>
+
+</div>
+
+<script>
+/* ================================
+   PACKING PLANNER FUNCTIONALITY
+================================ */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const categoryCards = document.querySelectorAll(
+        ".packing-category-card"
+    );
+
+    categoryCards.forEach(function (card) {
+
+        const category = card.dataset.category;
+
+        const circle = document.getElementById(
+            "circle-" + category.replace(/ /g, "-")
+        );
+
+        if (!circle) {
+            return;
+        }
+
+        const circleText = circle.querySelector("span");
+
+        function updateProgress() {
+
+            const allItems = card.querySelectorAll(
+                ".packing-checkbox"
+            );
+
+            const checkedItems = card.querySelectorAll(
+                ".packing-checkbox:checked"
+            );
+
+            const total = allItems.length;
+            const checked = checkedItems.length;
+
+            let percentage = 0;
+
+            if (total > 0) {
+                percentage = Math.round(
+                    (checked / total) * 100
+                );
+            }
+
+            const degrees = percentage * 3.6;
+
+            circle.style.background = `
+                conic-gradient(
+                    #8b6fa3 0deg,
+                    #8b6fa3 ${degrees}deg,
+                    #eee8ef ${degrees}deg,
+                    #eee8ef 360deg
+                )
+            `;
+
+            circleText.textContent =
+                percentage + "%";
+        }
+
+
+        /* Checklist progress */
+
+        const checkboxes = card.querySelectorAll(
+            ".packing-checkbox"
+        );
+
+        checkboxes.forEach(function (checkbox) {
+
+            checkbox.addEventListener(
+                "change",
+                updateProgress
+            );
+
+        });
+
+
+        /* ================================
+           ADD CUSTOM ITEM
+        ================================= */
+
+        const addButton = card.querySelector(
+            ".add-custom-btn"
+        );
+
+        const customBox = card.querySelector(
+            ".custom-item-box"
+        );
+
+        const input = card.querySelector(
+            ".custom-item-input"
+        );
+
+        const saveButton = card.querySelector(
+            ".save-custom-btn"
+        );
+
+
+        if (addButton && customBox) {
+
+            addButton.addEventListener(
+                "click",
+                function () {
+
+                    customBox.classList.toggle("show");
+
+                    if (customBox.classList.contains("show")) {
+                        input.focus();
+                    }
+
+                }
+            );
+
+        }
+
+
+        if (saveButton) {
+
+            saveButton.addEventListener(
+                "click",
+                function () {
+
+                    const itemName =
+                        input.value.trim();
+
+                    if (itemName === "") {
+                        return;
+                    }
+
+                    const label =
+                        document.createElement("label");
+
+                    label.className =
+                        "packing-item";
+
+                    label.innerHTML = `
+                        <input
+                            type="checkbox"
+                            class="packing-checkbox"
+                        >
+                        <span>${itemName}</span>
+                    `;
+
+                    const checklist =
+                        card.querySelector(
+                            ".packing-checklist"
+                        );
+
+                    checklist.appendChild(label);
+
+
+                    const newCheckbox =
+                        label.querySelector(
+                            ".packing-checkbox"
+                        );
+
+                    newCheckbox.addEventListener(
+                        "change",
+                        updateProgress
+                    );
+
+
+                    input.value = "";
+
+                    customBox.classList.remove(
+                        "show"
+                    );
+
+                    updateProgress();
+
+                }
+            );
+
+        }
+
+
+        if (input && saveButton) {
+
+            input.addEventListener(
+                "keypress",
+                function (event) {
+
+                    if (event.key === "Enter") {
+                        saveButton.click();
+                    }
+
+                }
+            );
+
+        }
+
+
+        /* Initial progress */
+
+        updateProgress();
+
+    });
+
+});
+</script>
+
+</body>
+</html>

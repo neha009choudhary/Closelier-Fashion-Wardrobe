@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile | Closelier</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="dashboard">
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <div class="logo">
+                ✦
+                <span>CLOSELIER</span>
+            </div>
+
+            <nav class="sidebar-nav">
+
+                <a href="/dashboard" class="nav-item">
+                    <span>⌂</span>
+                    Dashboard
+                </a>
+
+                <a href="/wardrobe" class="nav-item">
+                    <span>♡</span>
+                    My Wardrobe
+                </a>
+
+                <a href="/ai-styling" class="nav-item">
+                    <span>✦</span>
+                    AI Styling
+                </a>
+
+                <a href="/accessories" class="nav-item">
+                    <span>✧</span>
+                    Accessories
+                </a>
+
+                <a href="/weather-styling" class="nav-item">
+                    <span>☀</span>
+                    Weather Styling
+                </a>
+
+                <a href="/shopping-assistant" class="nav-item">
+                    <span>🛍</span>
+                    Shopping Assistant
+                </a>
+
+                <a href="/packing-planner" class="nav-item">
+                    <span>✈</span>
+                    Packing Planner
+                </a>
+
+                <a href="/saved-outfits" class="nav-item">
+                    <span>♡</span>
+                    Saved Outfits
+                </a>
+
+                <a href="/profile" class="nav-item active">
+                    <span>☁</span>
+                    My Profile
+                </a>
+
+            </nav>
+
+            <div class="sidebar-bottom">
+
+                <a href="/logout" class="nav-item">
+                    <span>↪</span>
+                    Logout
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- ================================
+             MAIN CONTENT
+        ================================= -->
+
+        <main class="dashboard-main">
+
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="profile-success">
+                            ✓ {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <!-- Page Header -->
+
+            <div class="dashboard-header">
+
+                <div>
+
+                    <p class="welcome-small">
+                        PERSONAL STYLE
+                    </p>
+
+                    <h1>My Profile</h1>
+
+                    <p class="header-description">
+                        Personalize your fashion experience.
+                    </p>
+
+                </div>
+
+                <div class="profile-circle">
+                    👤
+                </div>
+
+            </div>
+
+
+            <!-- ================================
+                 PROFILE CONTENT
+            ================================= -->
+
+            <div class="profile-layout">
+
+                <!-- Profile Introduction -->
+
+                <div class="profile-welcome">
+
+                    <div class="profile-icon">
+                        👗
+                    </div>
+
+                    <h2>Your Fashion Profile</h2>
+
+                    <p>
+                        Add a few details about yourself and your style.
+                        These preferences can later help generate more
+                        personalized outfit recommendations.
+                    </p>
+
+                </div>
+
+
+                <!-- Profile Form -->
+
+                <div class="dashboard-card profile-card">
+
+                    <h2>Personal Details</h2>
+
+                    <p class="profile-description">
+                        Tell us about your fashion preferences.
+                    </p>
+
+
+                    <form action="/save-profile" method="POST">
+
+                        <div class="form-group">
+
+                            <label for="name">
+                                Name
+                            </label>
+
+                            <input
+                                 type="text"
+                                 id="name"
+                                 name="name"
+                                 placeholder="Enter your name"
+                                 value="{{ profile['name'] if profile else '' }}"
+                                 required
+>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="age">
+                                Age
+                            </label>
+
+                            <input
+                                type="number"
+                                 id="age"
+                                name="age"
+                                placeholder="Enter your age"
+                                min="13"
+                                max="100"
+                                value="{{ profile['age'] if profile else '' }}"
+                                required
+>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="style">
+                                Preferred Style
+                            </label>
+
+                            <select
+                                 id="style"
+                                 name="style"
+                                required
+>
+
+                                <option value="">
+                                    Select your style
+                                </option>
+
+                                <option value="Casual" {% if profile and profile['style'] == 'Casual' %}selected{% endif %}>
+                                    Casual
+                                </option>
+
+                                <option value="Formal" {% if profile and profile['style'] == 'Formal' %}selected{% endif %}>
+                                    Formal
+                                </option>
+
+                                <option value="Traditional" {% if profile and profile['style'] == 'Traditional' %}selected{% endif %}>
+                                    Traditional
+                                </option>
+
+                                <option value="Streetwear" {% if profile and profile['style'] == 'Streetwear' %}selected{% endif %}>
+                                    Streetwear
+                                </option>
+
+                                <option value="Minimal" {% if profile and profile['style'] == 'Minimal' %}selected{% endif %}>
+                                    Minimal
+                                </option>
+
+                                <option value="Sporty" {% if profile and profile['style'] == 'Sporty' %}selected{% endif %}>
+                                    Sporty
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="favorite_color">
+                                Favorite Color
+                            </label>
+
+                            <input
+                                type="text"
+                                id="favorite_color"
+                                name="favorite_color"
+                                placeholder="e.g. Black, Pink, Blue"
+                                value="{{ profile['favorite_color'] if profile else '' }}"
+                                required
+                            >
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="save-item-button"
+                        >
+                            Save Profile
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

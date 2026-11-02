@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Saved Outfits | Closelier</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+
+        /* ================================
+           SAVED OUTFITS
+        ================================ */
+
+        .saved-intro {
+            margin-bottom: 28px;
+        }
+
+        .saved-intro h1 {
+            margin-bottom: 8px;
+        }
+
+        .saved-intro p {
+            color: #777;
+            line-height: 1.6;
+        }
+
+        .saved-outfits-grid {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(190px, 1fr)
+            );
+            gap: 20px;
+        }
+
+        .saved-outfit {
+            background: #fff;
+            border: 1px solid #eee4f0;
+            border-radius: 18px;
+            padding: 20px;
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 8px 24px
+                rgba(120, 90, 130, 0.06);
+        }
+
+        .saved-outfit-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 18px;
+        }
+
+        .saved-outfit-header h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .saved-heart {
+            font-size: 22px;
+            color: #c98fa6;
+        }
+
+        .saved-item {
+            background: #fff;
+            border: 1px solid #eee4f0;
+            border-radius: 16px;
+            padding: 14px;
+
+            transition: 0.3s ease;
+        }
+
+        .saved-item:hover {
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 10px 24px
+                rgba(120, 90, 130, 0.10);
+        }
+
+        .saved-item-image {
+            width: 100%;
+            height: 210px;
+
+            object-fit: cover;
+
+            border-radius: 13px;
+
+            display: block;
+
+            margin-bottom: 13px;
+        }
+
+        .saved-item-placeholder {
+            width: 100%;
+            height: 210px;
+
+            border-radius: 13px;
+
+            background: #faf4fb;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 48px;
+
+            margin-bottom: 13px;
+        }
+
+        .saved-item h3 {
+            margin: 5px 0 9px;
+            font-size: 16px;
+        }
+
+        .saved-tag {
+            display: inline-block;
+
+            padding: 5px 9px;
+            margin: 2px;
+
+            background: #f8f1fa;
+
+            border-radius: 9px;
+
+            font-size: 11px;
+
+            color: #725d77;
+        }
+
+        .empty-saved {
+            text-align: center;
+
+            padding: 55px 20px;
+
+            background: #fcf8fd;
+
+            border-radius: 18px;
+
+            border: 1px dashed #dfcfe4;
+        }
+
+        .empty-saved-icon {
+            font-size: 48px;
+            margin-bottom: 14px;
+        }
+
+        .empty-saved h2 {
+            margin-bottom: 8px;
+        }
+
+        .empty-saved p {
+            color: #777;
+            line-height: 1.6;
+            margin-bottom: 22px;
+        }
+
+        .saved-button {
+            display: inline-block;
+
+            padding: 11px 20px;
+
+            background: #76577f;
+            color: #fff;
+
+            border-radius: 10px;
+
+            text-decoration: none;
+
+            font-size: 13px;
+            font-weight: 600;
+
+            transition: 0.2s ease;
+        }
+
+        .saved-button:hover {
+            transform: translateY(-2px);
+            opacity: 0.92;
+        }
+
+        @media (max-width: 700px) {
+
+            .saved-item-image,
+            .saved-item-placeholder {
+                height: 190px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="dashboard">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            ✦
+            <span>CLOSELIER</span>
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <a href="/dashboard" class="nav-item">
+                <span>⌂</span>
+                Dashboard
+            </a>
+
+            <a href="/wardrobe" class="nav-item">
+                <span>♡</span>
+                My Wardrobe
+            </a>
+
+            <a href="/ai-styling" class="nav-item">
+                <span>✦</span>
+                AI Styling
+            </a>
+
+            <a href="/accessories" class="nav-item">
+                <span>✧</span>
+                Accessories
+            </a>
+
+            <a href="/weather-styling" class="nav-item">
+                <span>☀</span>
+                Weather Styling
+            </a>
+
+            <a href="/shopping-assistant" class="nav-item">
+                <span>🛍</span>
+                Shopping Assistant
+            </a>
+
+            <a href="/packing-planner" class="nav-item">
+                <span>✈</span>
+                Packing Planner
+            </a>
+
+            <a href="/saved-outfits" class="nav-item active">
+                <span>♡</span>
+                Saved Outfits
+            </a>
+
+            <a href="/profile" class="nav-item">
+                <span>☁</span>
+                My Profile
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <a href="/logout" class="nav-item">
+                <span>↪</span>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="dashboard-main">
+
+        <div class="saved-intro">
+
+            <p class="welcome-small">
+                YOUR PERSONAL COLLECTION ✨
+            </p>
+
+            <h1>Saved Outfits</h1>
+
+            <p>
+                Your favorite outfit combinations, saved in one place.
+            </p>
+
+        </div>
+
+
+        {% if saved_outfits %}
+
+
+            {% for outfit in saved_outfits %}
+
+                <div class="saved-outfit">
+
+                    <div class="saved-outfit-header">
+
+                        <h2>
+                            ✨ Outfit {{ loop.index }}
+                        </h2>
+
+                        <span class="saved-heart">
+                            ♥
+                        </span>
+
+                    </div>
+
+
+                    <div class="saved-outfits-grid">
+
+
+                        {% for item in outfit %}
+
+                            <div class="saved-item">
+
+
+                                {% if item["image"] %}
+
+                                    <img
+                                        src="{{ url_for(
+                                            'static',
+                                            filename='uploads/' + item['image']
+                                        ) }}"
+                                        alt="{{ item['name'] }}"
+                                        class="saved-item-image"
+                                    >
+
+                                {% else %}
+
+                                    <div class="saved-item-placeholder">
+                                        👗
+                                    </div>
+
+                                {% endif %}
+
+
+                                <h3>
+                                    {{ item["name"] }}
+                                </h3>
+
+
+                                <span class="saved-tag">
+                                    {{ item["category"] }}
+                                </span>
+
+                                <span class="saved-tag">
+                                    {{ item["color"] }}
+                                </span>
+
+
+                            </div>
+
+                        {% endfor %}
+
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+
+        {% else %}
+
+
+            <div class="empty-saved">
+
+                <div class="empty-saved-icon">
+                    ♡
+                </div>
+
+                <h2>
+                    No saved outfits yet
+                </h2>
+
+                <p>
+                    Create an outfit with AI Styling and save
+                    your favorite combinations here.
+                </p>
+
+                <a
+                    href="/ai-styling"
+                    class="saved-button"
+                >
+                    Create an Outfit →
+                </a>
+
+            </div>
+
+
+        {% endif %}
+
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

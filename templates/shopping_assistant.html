@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Shopping Assistant | Closelier</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+
+        /* ============================= */
+        /* SHOPPING ASSISTANT PAGE */
+        /* ============================= */
+
+        .shopping-content {
+            padding: 40px;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fffafa 0%, #f8f1fb 100%);
+        }
+
+        .shopping-header {
+            margin-bottom: 30px;
+        }
+
+        .shopping-header .welcome-small {
+            color: #9b7bb5;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .shopping-header h1 {
+            font-size: 32px;
+            color: #4d4054;
+            margin: 0 0 8px;
+        }
+
+        .shopping-header p {
+            color: #766b78;
+            margin: 0;
+        }
+
+
+        /* ============================= */
+        /* INTRO CARD */
+        /* ============================= */
+
+        .shopping-intro {
+            background: linear-gradient(135deg, #eadff0, #f7e8ed);
+            border: 1px solid #eadced;
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(155, 123, 181, 0.10);
+        }
+
+        .shopping-intro-text {
+            max-width: 700px;
+        }
+
+        .shopping-intro-text h2 {
+            color: #51445a;
+            margin: 0 0 8px;
+            font-size: 25px;
+        }
+
+        .shopping-intro-text p {
+            color: #766b78;
+            line-height: 1.7;
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .shopping-intro-icon {
+            width: 82px;
+            height: 82px;
+            border-radius: 50%;
+            background: #fff8fb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 38px;
+            box-shadow: 0 8px 20px rgba(90, 70, 100, 0.10);
+        }
+
+
+        /* ============================= */
+        /* MAIN TWO PANEL LAYOUT */
+        /* ============================= */
+
+        .shopping-layout {
+            display: grid;
+            grid-template-columns: 0.9fr 1.4fr;
+            gap: 25px;
+            align-items: start;
+        }
+
+
+        /* ============================= */
+        /* QUESTIONS PANEL */
+        /* ============================= */
+
+        .shopping-questions {
+            background: #ffffff;
+            border: 1px solid #eadfed;
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: 0 10px 30px rgba(155, 123, 181, 0.08);
+        }
+
+        .panel-heading {
+            margin-bottom: 25px;
+        }
+
+        .panel-heading h2 {
+            color: #51445a;
+            font-size: 21px;
+            margin: 0 0 7px;
+        }
+
+        .panel-heading p {
+            color: #8a7e8d;
+            font-size: 13px;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .question-card {
+            margin-bottom: 22px;
+        }
+
+        .question-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .question-number {
+            color: #a17bb8;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.7px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .question-card h3 {
+            color: #514752;
+            font-size: 14px;
+            margin: 0 0 11px;
+        }
+
+        .question-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .question-option {
+            border: 1px solid #e5d9e9;
+            background: #fff;
+            color: #685b6d;
+            padding: 9px 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: 0.25s ease;
+        }
+
+        .question-option:hover {
+            background: #f6eff8;
+            border-color: #cdb5d8;
+            transform: translateY(-1px);
+        }
+
+        .question-option.selected {
+            background: #eadcf1;
+            border-color: #b995c9;
+            color: #604b69;
+            font-weight: 600;
+        }
+
+        .shopping-continue {
+            width: 100%;
+            margin-top: 25px;
+            border: none;
+            background: linear-gradient(135deg, #9b7bb5, #b48bc7);
+            color: white;
+            padding: 13px 20px;
+            border-radius: 13px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 6px 15px rgba(155, 123, 181, 0.20);
+            transition: 0.25s ease;
+        }
+
+        .shopping-continue:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 9px 20px rgba(155, 123, 181, 0.28);
+        }
+
+
+        /* ============================= */
+        /* INSIGHTS + SHOPPING PANEL */
+        /* ============================= */
+
+        .shopping-results {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+
+        .results-card {
+            background: #ffffff;
+            border: 1px solid #eadfed;
+            border-radius: 24px;
+            padding: 27px;
+            box-shadow: 0 10px 30px rgba(155, 123, 181, 0.08);
+        }
+
+        .results-heading {
+            margin-bottom: 20px;
+        }
+
+        .results-heading h2 {
+            color: #51445a;
+            font-size: 20px;
+            margin: 0 0 6px;
+        }
+
+        .results-heading p {
+            color: #8a7e8d;
+            font-size: 13px;
+            margin: 0;
+        }
+
+
+        /* ============================= */
+        /* WARDROBE INSIGHTS */
+        /* ============================= */
+
+        .insight-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 13px;
+        }
+
+        .insight-box {
+            border-radius: 17px;
+            padding: 18px;
+        }
+
+        .insight-box.lavender {
+            background: #f1e8f5;
+        }
+
+        .insight-box.blush {
+            background: #f8e8eb;
+        }
+
+        .insight-box.cream {
+            background: #f7f0df;
+        }
+
+        .insight-box .insight-icon {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .insight-box h3 {
+            color: #55475e;
+            font-size: 13px;
+            margin: 0 0 6px;
+        }
+
+        .insight-box p {
+            color: #817681;
+            font-size: 11px;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+
+        /* ============================= */
+        /* SHOP NOW */
+        /* ============================= */
+
+        .shop-now-card {
+            background: linear-gradient(135deg, #fff8f0, #f9f0f8);
+        }
+
+        .shop-heading-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .shop-heading-row h2 {
+            color: #51445a;
+            font-size: 20px;
+            margin: 0;
+        }
+
+        .shop-badge {
+            background: #eadff0;
+            color: #725a7d;
+            padding: 7px 11px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .shopping-products {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+
+        .shopping-product {
+            background: #ffffff;
+            border: 1px solid #eee1e8;
+            border-radius: 17px;
+            padding: 14px;
+            transition: 0.25s ease;
+        }
+
+        .shopping-product:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 22px rgba(120, 90, 110, 0.10);
+        }
+
+        .product-visual {
+            height: 105px;
+            border-radius: 14px;
+            background: #f0e8f4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 38px;
+            margin-bottom: 12px;
+        }
+
+        .shopping-product:nth-child(2) .product-visual {
+            background: #f8e9eb;
+        }
+
+        .shopping-product:nth-child(3) .product-visual {
+            background: #f6efdf;
+        }
+
+        .shopping-product h3 {
+            color: #55475e;
+            font-size: 13px;
+            margin: 0 0 5px;
+        }
+
+        .product-tag {
+            display: inline-block;
+            background: #f1e9f3;
+            color: #80658b;
+            border-radius: 10px;
+            padding: 4px 7px;
+            font-size: 9px;
+            margin-bottom: 8px;
+        }
+
+        .product-price {
+            color: #66586b;
+            font-size: 11px;
+            margin-bottom: 12px;
+        }
+
+        .product-buttons {
+            display: flex;
+            gap: 6px;
+        }
+
+        .product-button {
+            flex: 1;
+            text-align: center;
+            padding: 8px 5px;
+            border-radius: 9px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .explore-button {
+            background: #eee5f2;
+            color: #66536e;
+        }
+
+        .list-button {
+            background: #f5e4e7;
+            color: #7d5d65;
+        }
+
+
+        /* ============================= */
+        /* SHOPPING LIST */
+        /* ============================= */
+
+        .shopping-list-card {
+            background: #ffffff;
+            border: 1px solid #eadfed;
+            border-radius: 24px;
+            padding: 27px;
+            margin-top: 25px;
+            box-shadow: 0 10px 30px rgba(155, 123, 181, 0.08);
+        }
+
+        .shopping-list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 17px;
+        }
+
+        .shopping-list-header h2 {
+            color: #51445a;
+            font-size: 20px;
+            margin: 0;
+        }
+
+        .shopping-list-status {
+            background: #f5e5e7;
+            color: #805f67;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .empty-shopping-list {
+            padding: 25px;
+            border-radius: 17px;
+            background: #faf7fb;
+            border: 1px dashed #dccde3;
+            text-align: center;
+            color: #918592;
+            font-size: 12px;
+        }
+
+
+        /* ============================= */
+        /* RESPONSIVE */
+        /* ============================= */
+
+        @media (max-width: 900px) {
+
+            .shopping-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .shopping-products {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 800px) {
+
+            .shopping-content {
+                padding: 25px 20px;
+            }
+
+            .shopping-intro {
+                align-items: flex-start;
+                gap: 20px;
+            }
+
+            .insight-grid,
+            .shopping-products {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .shopping-intro {
+                flex-direction: column;
+            }
+
+            .shopping-intro-icon {
+                width: 65px;
+                height: 65px;
+                font-size: 30px;
+            }
+
+            .shopping-header h1 {
+                font-size: 27px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="dashboard">
+
+        <!-- ================= SIDEBAR ================= -->
+
+        <aside class="sidebar">
+
+            <div class="logo">
+                ✦
+                <span>CLOSELIER</span>
+            </div>
+
+            <nav class="sidebar-nav">
+
+                <a href="/dashboard" class="nav-item">
+                    <span>⌂</span>
+                    Dashboard
+                </a>
+
+                <a href="/wardrobe" class="nav-item">
+                    <span>♡</span>
+                    My Wardrobe
+                </a>
+
+                <a href="/ai-styling" class="nav-item">
+                    <span>✦</span>
+                    AI Styling
+                </a>
+
+                <a href="/accessories" class="nav-item">
+                    <span>✧</span>
+                    Accessories
+                </a>
+
+                <a href="/weather-styling" class="nav-item">
+                    <span>☀</span>
+                    Weather Styling
+                </a>
+
+                <a href="/shopping-assistant" class="nav-item active">
+                    <span>🛍</span>
+                    Shopping Assistant
+                </a>
+
+                <a href="/packing-planner" class="nav-item">
+                    <span>✈</span>
+                    Packing Planner
+                </a>
+
+                <a href="/saved-outfits" class="nav-item">
+                    <span>♡</span>
+                    Saved Outfits
+                </a>
+
+                <a href="/profile" class="nav-item">
+                    <span>☁</span>
+                    My Profile
+                </a>
+
+            </nav>
+
+            <div class="sidebar-bottom">
+
+                <a href="/logout" class="nav-item">
+                    <span>↪</span>
+                    Logout
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- ================= MAIN ================= -->
+
+        <main class="dashboard-main">
+
+            <div class="shopping-content">
+
+                <!-- HEADER -->
+
+                <div class="shopping-header">
+
+                    <p class="welcome-small">
+                        SMART SHOPPING ✦
+                    </p>
+
+                    <h1>Shopping Assistant</h1>
+
+                    <p>
+                        Discover what to shop next based on your style,
+                        lifestyle and preferences.
+                    </p>
+
+                </div>
+
+
+                <!-- INTRO -->
+
+                <section class="shopping-intro">
+
+                    <div class="shopping-intro-text">
+
+                        <h2>Shop with a little more intention. 🛍️</h2>
+
+                        <p>
+                            Tell us what you're looking for and we'll combine
+                            your preferences with your wardrobe insights to
+                            help you discover useful pieces worth considering.
+                        </p>
+
+                    </div>
+
+                    <div class="shopping-intro-icon">
+                        🛍️
+                    </div>
+
+                </section>
+
+
+                <!-- TWO PANEL AREA -->
+
+                <div class="shopping-layout">
+
+
+                    <!-- QUESTIONS -->
+
+                    <section class="shopping-questions">
+
+                        <div class="panel-heading">
+
+                            <h2>✦ Let's personalise your shopping</h2>
+
+                            <p>
+                                Answer a few questions to get more relevant
+                                shopping suggestions.
+                            </p>
+
+                        </div>
+
+
+                        <!-- QUESTION 1 -->
+
+                        <div class="question-card">
+
+                            <div class="question-number">
+                                Question 01
+                            </div>
+
+                            <h3>What are you trying to achieve?</h3>
+
+                            <div class="question-options">
+
+                                <button type="button" class="question-option">
+                                    Refresh my wardrobe
+                                </button>
+
+                                <button type="button" class="question-option">
+                                    Prepare for an event
+                                </button>
+
+                                <button type="button" class="question-option">
+                                    Prepare for a trip
+                                </button>
+
+                                <button type="button" class="question-option">
+                                    Find something new
+                                </button>
+
+                                <button type="button" class="question-option">
+                                    Build versatile outfits
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- QUESTION 2 -->
+
+                        <div class="question-card">
+
+                            <div class="question-number">
+                                Question 02
+                            </div>
+
+                            <h3>What kind of purchase are you interested in?</h3>
+
+                            <div class="question-options">
+
+                                <button type="button" class="question-option">
+                                    Clothing
+                                </button>
+
+                                <button type="button" class="question-option">
+                                    Footwear
+                                </button>
+
+                                <button type="button" class="question-option">
+                                    Accessories
+                                </button>
+
+                                <button type="button" class="question-option">
+                                    Any category
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- QUESTION 3 -->
+
+                        <div class="question-card">
+
+                            <div class="question-number">
+                                Question 03
+                            </div>
+
+                            <h3>How do you want to use it?</h3>
+
+                            <div class="question-options">
+
+                                <button type="button" class="question-option">
+                                    Everyday
+                                </button>
+
+                                <button type="button" class="question-option">
+                                    College
+                                </button>
+
+                                <button type="button" class="question-option">
+                                    Occasional
+                                </button>
+
+                                <button type="button" class="question-option">
+                                    Travel
+                                </button>
+
+                                <button type="button" class="question-option">
+                                    Special occasions
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- QUESTION 4 -->
+
+                        <div class="question-card">
+
+                            <div class="question-number">
+                                Question 04
+                            </div>
+
+                            <h3>What style are you drawn to?</h3>
+
+                            <div class="question-options">
+
+                                <button type="button" class="question-option">
+                                    Casual
+                                </button>
+
+                                <button type="button" class="question-option">
+                                    Trendy
+                                </button>
+
+                                <button type="button" class="question-option">
+                                    Minimal
+                                </button>
+
+                                <button type="button" class="question-option">
+                                    Elegant
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- QUESTION 5 -->
+
+                        <div class="question-card">
+
+                            <div class="question-number">
+                                Question 05
+                            </div>
+
+                            <h3>What's your budget?</h3>
+
+                            <div class="question-options">
+
+                                <button type="button" class="question-option">
+                                    ₹500–₹1,000
+                                </button>
+
+                                <button type="button" class="question-option">
+                                    ₹1,000–₹2,500
+                                </button>
+
+                                <button type="button" class="question-option">
+                                    ₹2,500–₹5,000
+                                </button>
+
+                                <button type="button" class="question-option">
+                                    ₹5,000+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <button type="button" class="shopping-continue">
+                            Continue to Shopping Picks →
+                        </button>
+
+                    </section>
+
+
+                    <!-- RESULTS -->
+
+                    <section class="shopping-results">
+
+                        {% if products %}
+
+                            <!-- WARDROBE INSIGHTS -->
+
+                            <div class="results-card">
+
+                                <div class="results-heading">
+
+                                    <h2>Wardrobe Insights</h2>
+
+                                    <p>
+                                        A quick look at your existing wardrobe.
+                                    </p>
+
+                                </div>
+
+                                <div class="insight-grid">
+
+                                    <div class="insight-box lavender">
+
+                                        <div class="insight-icon">👗</div>
+
+                                        <h3>Strong Categories</h3>
+
+                                        <p>{{ strong_categories }}</p>
+
+                                    </div>
+
+
+                                    <div class="insight-box blush">
+
+                                        <div class="insight-icon">🧩</div>
+
+                                        <h3>Potential Gaps</h3>
+
+                                        <p>{{ potential_gaps }}</p>
+
+                                    </div>
+
+
+                                    <div class="insight-box cream">
+
+                                        <div class="insight-icon">✨</div>
+
+                                        <h3>Smart Insights</h3>
+
+                                        <p>{{ smart_insight }}</p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- SHOP NOW -->
+
+                            <div class="results-card shop-now-card">
+
+                                <div class="shop-heading-row">
+
+                                    <h2>Shop Now</h2>
+
+                                    <span class="shop-badge">
+                                        STYLE PICKS
+                                    </span>
+
+                                </div>
+
+
+                                <div class="shopping-products">
+
+                                    {% for product in products %}
+
+                                        <div class="shopping-product">
+
+                                            <div class="product-visual">
+                                                {{ product.icon }}
+                                            </div>
+
+                                            <span class="product-tag">
+                                                {{ product.tag }}
+                                            </span>
+
+                                            <h3>
+                                                {{ product.name }}
+                                            </h3>
+
+                                            <div class="product-price">
+                                                {{ product.price }}
+                                            </div>
+
+
+                                            <div class="product-buttons">
+
+                                                <a
+                                                    href="{{ product.stores[0].url }}"
+                                                    target="_blank"
+                                                    class="product-button explore-button"
+                                                >
+                                                    Explore
+                                                </a>
+
+
+                                                <form
+                                                    method="POST"
+                                                    action="/shopping-assistant"
+                                                    style="display:inline;"
+                                                >
+
+                                                    <input
+                                                        type="hidden"
+                                                        name="action"
+                                                        value="add"
+                                                    >
+
+                                                    <input
+                                                        type="hidden"
+                                                        name="product_name"
+                                                        value="{{ product.name }}"
+                                                    >
+
+                                                    <input
+                                                        type="hidden"
+                                                        name="product_price"
+                                                        value="{{ product.price }}"
+                                                    >
+
+                                                    <button
+                                                        type="submit"
+                                                        class="product-button list-button"
+                                                    >
+                                                        + List
+                                                    </button>
+
+                                                </form>
+
+                                            </div>
+
+                                        </div>
+
+                                    {% endfor %}
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- SHOPPING LIST -->
+
+                            <section class="shopping-list-card">
+
+                                <div class="shopping-list-header">
+
+                                    <h2>🛍️ My Shopping List</h2>
+
+                                    <span class="shopping-list-status">
+                                        {{ shopping_list|length }} SAVED ITEMS
+                                    </span>
+
+                                </div>
+
+
+                                {% if shopping_list %}
+
+                                    <div class="shopping-list-items">
+
+                                        {% for item in shopping_list %}
+
+                                            <div class="shopping-list-item">
+
+                                                <div>
+
+                                                    <strong>
+                                                        {{ item.product_name }}
+                                                    </strong>
+
+                                                    <div>
+                                                        {{ item.price }}
+                                                    </div>
+
+                                                </div>
+
+
+                                                <form
+                                                    method="POST"
+                                                    action="/shopping-assistant"
+                                                >
+
+                                                    <input
+                                                        type="hidden"
+                                                        name="action"
+                                                        value="remove"
+                                                    >
+
+                                                    <input
+                                                        type="hidden"
+                                                        name="item_id"
+                                                        value="{{ item.id }}"
+                                                    >
+
+                                                    <button
+                                                        type="submit"
+                                                        class="list-remove-button"
+                                                    >
+                                                        🗑️ Remove
+                                                    </button>
+
+                                                </form>
+
+                                            </div>
+
+                                        {% endfor %}
+
+                                    </div>
+
+                                {% else %}
+
+                                    <div class="empty-shopping-list">
+
+                                        Your saved shopping items will appear here.
+                                        Add something from the recommendations above
+                                        to start your list.
+
+                                    </div>
+
+                                {% endif %}
+
+                            </section>
+
+                        {% endif %}
+
+                    </section>
+
+                </div>   
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+    <!-- ============================= -->
+    <!-- SMALL OPTION SELECTION SCRIPT -->
+    <!-- ============================= -->
+
+    <script>
+
+        const questionGroups =
+            document.querySelectorAll(".question-options");
+
+        const fieldNames = [
+            "goal",
+            "category",
+            "use",
+            "style",
+            "budget"
+        ];
+
+        questionGroups.forEach((group, index) => {
+
+            const options =
+                group.querySelectorAll(".question-option");
+
+            options.forEach(option => {
+
+                option.addEventListener("click", function () {
+
+                    options.forEach(item => {
+                        item.classList.remove("selected");
+                    });
+
+                    this.classList.add("selected");
+
+                });
+
+            });
+
+        });
+
+
+        document.querySelector(".shopping-continue").addEventListener("click", function () {
+
+            const selectedOptions = [];
+
+            questionGroups.forEach(group => {
+
+                const selected =
+                    group.querySelector(".question-option.selected");
+
+                if (selected) {
+                    selectedOptions.push(selected.innerText.trim());
+                } else {
+                    selectedOptions.push("");
+                }
+
+            });
+
+
+            /* Check whether all five questions are answered */
+
+            const unanswered =
+                selectedOptions.some(value => value === "");
+
+            if (unanswered) {
+
+                alert("Please answer all five questions before continuing.");
+
+                return;
+
+            }
+
+
+            /* Create a form to send the answers to Flask */
+
+            const form = document.createElement("form");
+
+            form.method = "POST";
+            form.action = "/shopping-assistant";
+
+
+            /* Add each selected answer */
+
+            selectedOptions.forEach((value, index) => {
+
+                const input = document.createElement("input");
+
+                input.type = "hidden";
+                input.name = fieldNames[index];
+                input.value = value;
+
+                form.appendChild(input);
+
+            });
+
+
+            /* Submit the form */
+
+            document.body.appendChild(form);
+
+            form.submit();
+
+        });
+
+    </script>
+
+</body>
+
+</html>

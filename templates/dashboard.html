@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | Closelier</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <div class="dashboard">
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <div class="logo">
+                ✦
+                <span>CLOSELIER</span>
+            </div>
+
+            <nav class="sidebar-nav">
+
+                <a href="/dashboard" class="nav-item active">
+                    <span>⌂</span>
+                    Dashboard
+                </a>
+
+                <a href="/wardrobe" class="nav-item">
+                    <span>♡</span>
+                    My Wardrobe
+                </a>
+
+                <a href="/ai-styling" class="nav-item">
+                    <span>✦</span>
+                    AI Styling
+                </a>
+
+                <a href="/accessories" class="nav-item">
+                    <span>✧</span>
+                    Accessories
+                </a>
+
+                <a href="/weather-styling" class="nav-item">
+                    <span>☀</span>
+                    Weather Styling
+                </a>
+
+                <a href="/shopping-assistant" class="nav-item">
+                    <span>🛍</span>
+                    Shopping Assistant
+                </a>
+
+                <a href="/packing-planner" class="nav-item">
+                    <span>✈</span>
+                    Packing Planner
+                </a>
+
+                <a href="/saved-outfits" class="nav-item">
+                    <span>♡</span>
+                    Saved Outfits
+                </a>
+
+                <a href="/profile" class="nav-item">
+                    <span>☁</span>
+                    My Profile
+                </a>
+
+            </nav>
+
+            <div class="sidebar-bottom">
+
+                <a href="/logout" class="nav-item">
+                    <span>↪</span>
+                    Logout
+                </a>
+
+            </div>
+
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="flash-message">
+                        {{ messages[0] }}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <header class="dashboard-header">
+
+                <div>
+                    <p class="welcome-small">Welcome back ✨</p>
+
+                    <h1>Your Style Space</h1>
+
+                    <p class="header-description">
+                        Everything you need to explore and organize your style.
+                    </p>
+                </div>
+
+                <div class="profile-circle">
+                    N
+                </div>
+
+            </header>
+
+
+            <!-- Quick Stats -->
+
+            <section class="quick-stats">
+
+                <div class="stat-card">
+                    <span class="stat-icon">♡</span>
+                    <div>
+                        <p>Wardrobe</p>
+                        <h2>{{ wardrobe_count }} Items</h2>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <span class="stat-icon">✦</span>
+                    <div>
+                        <p>Outfits</p>
+                        <h2>{{ outfit_count }} Saved</h2>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <span class="stat-icon">☀</span>
+                    <div>
+                        <p>Today's Style</p>
+                        <h2 id="todays-style">Minimal</h2>
+                    </div>
+                </div>
+
+            </section>
+
+
+            <!-- Main Cards -->
+
+            <section class="dashboard-grid">
+
+                <div class="dashboard-card wardrobe-card">
+
+                    <div class="card-heading">
+                        <div>
+                            <p class="card-label">YOUR COLLECTION</p>
+                            <h2>Digital Wardrobe</h2>
+                        </div>
+
+                        <span class="card-symbol">♡</span>
+                    </div>
+
+                    <p>
+                        Add your clothes and create your own digital wardrobe.
+                    </p>
+
+                    <a href="/wardrobe" class="card-button">
+                        Open Wardrobe →
+                    </a>
+
+                </div>
+
+
+                <div class="dashboard-card styling-card">
+
+                    <div class="card-heading">
+                        <div>
+                            <p class="card-label">PERSONALIZED FOR YOU</p>
+                            <h2>AI Styling</h2>
+                        </div>
+
+                        <span class="card-symbol">✦</span>
+                    </div>
+
+                    <p>
+                        Get outfit combinations based on your wardrobe.
+                    </p>
+
+                    <a href="/ai-styling" class="card-button">
+                        Get Recommendations →
+                    </a>
+
+                </div>
+
+
+                <div class="dashboard-card ootd-card">
+                    <div class="card-heading">
+                        <div>
+                            <p class="card-label">SMART SHOPPING</p>
+                            <h2>Shop Your Style</h2>
+                        </div>
+                        <span class="card-symbol">🛍</span>
+                    </div>
+                    <p>Discover pieces that match your style, needs and wardrobe.</p>
+                    <a href="/shopping-assistant" class="card-button">Explore Shop Your Style →</a>
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <script>
+        const styles = [
+            "Minimal 🕊️",
+            "Casual 🌸",
+            "Vintage 📷",
+            "Old School 🎞️",
+            "Streetwear 🖤",
+            "Elegant ✨",
+            "Boho 🌿",
+            "Preppy 🎀",
+            "Y2K 💿",
+            "Chic 🪞"
+        ];
+
+        const styleIndex = parseInt(localStorage.getItem("styleIndex") || "0");
+
+        localStorage.setItem(
+            "styleIndex",
+            (styleIndex + 1) % styles.length
+        );
+
+        document.getElementById("todays-style").textContent = styles[styleIndex];
+
+        const flashMessage = document.querySelector(".flash-message");
+
+        if (flashMessage) {
+            setTimeout(() => {
+                flashMessage.style.opacity = "0";
+
+                setTimeout(() => {
+                    flashMessage.remove();
+                }, 300);
+            }, 3000);
+        }
+    </script>
+
+</body>
+</html>

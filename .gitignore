@@ -1,0 +1,18 @@
+venv/
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+.env
+instance/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# User uploads
+static/uploads/*
+
+# Backup files
+*.zip

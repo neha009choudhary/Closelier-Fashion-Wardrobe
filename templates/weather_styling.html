@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Weather Styling | Closelier
+    </title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+
+    <style>
+
+        /* ================================
+           MAIN WEATHER PAGE
+        ================================= */
+
+        .weather-content {
+            padding: 40px;
+            min-height: 100vh;
+            background: #f6edf9;
+        }
+
+
+        /* ================================
+           WEATHER HEADER
+        ================================= */
+
+        .weather-header {
+            margin-bottom: 30px;
+            padding: 28px 32px;
+            border-radius: 24px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #e4d3ed,
+                    #f4d7e2
+                );
+
+            box-shadow:
+                0 10px 25px
+                rgba(130, 90, 150, 0.12);
+        }
+
+        .weather-header .welcome-small {
+            color: #76547f;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+        }
+
+        .weather-header h1 {
+            margin: 5px 0 8px;
+
+            color: #4c3555;
+
+            font-size: 36px;
+        }
+
+        .weather-header p {
+            margin: 0;
+            color: #654f69;
+        }
+
+
+        /* ================================
+           WEATHER DETECTION CARD
+        ================================= */
+
+        .weather-card {
+            background: #fff8fc;
+
+            border: 1px solid #e4cce9;
+
+            border-radius: 28px;
+
+            padding: 35px;
+
+            text-align: center;
+
+            box-shadow:
+                0 12px 30px
+                rgba(115, 78, 130, 0.12);
+        }
+
+        .weather-icon {
+            font-size: 55px;
+            margin-bottom: 12px;
+        }
+
+        .weather-card h2 {
+            color: #51385c;
+            margin-bottom: 10px;
+        }
+
+        .weather-card p {
+            color: #77647b;
+        }
+
+
+        /* ================================
+           WEATHER STATUS
+        ================================= */
+
+        .weather-status {
+            display: inline-block;
+
+            margin-top: 20px;
+
+            padding: 12px 22px;
+
+            border-radius: 25px;
+
+            background: #ead9f1;
+
+            color: #573c62;
+
+            font-weight: 600;
+
+            line-height: 1.8;
+        }
+
+
+        /* ================================
+           DETECT BUTTON
+        ================================= */
+
+        .detect-button {
+            margin-top: 22px;
+
+            padding: 14px 28px;
+
+            border: none;
+
+            border-radius: 14px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #8f62a8,
+                    #b276aa
+                );
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.3s ease;
+        }
+
+        .detect-button:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 18px
+                rgba(120, 80, 140, 0.25);
+        }
+
+
+        /* ================================
+           RECOMMENDATION SECTION
+        ================================= */
+
+        .weather-recommendations {
+            margin-top: 32px;
+        }
+
+        .outfit-section {
+            margin-bottom: 32px;
+            padding: 26px;
+            border-radius: 26px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f1e4f5,
+                    #f8e6ed
+                );
+
+            border: 1px solid #ead8ee;
+
+            box-shadow:
+                0 10px 25px
+                rgba(130, 90, 150, 0.08);
+        }
+
+
+        .outfit-heading {
+            margin-bottom: 22px;
+        }
+
+
+        .outfit-small {
+            margin: 0 0 6px;
+
+            color: #866795;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            letter-spacing: 1.5px;
+        }
+
+
+        .outfit-heading h2 {
+            margin: 0 0 7px;
+
+            color: #563d60;
+
+            font-size: 27px;
+        }
+
+
+        .outfit-heading p {
+            margin: 0;
+
+            color: #77647b;
+
+            font-size: 14px;
+        }
+
+
+        .outfit-cards {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(190px, 1fr)
+                );
+
+            gap: 18px;
+        }
+
+
+        .outfit-card {
+            padding: 12px;
+
+            border-radius: 20px;
+
+            background: rgba(255, 255, 255, 0.72);
+
+            border: 1px solid rgba(255, 255, 255, 0.9);
+
+            box-shadow:
+                0 7px 20px
+                rgba(115, 78, 130, 0.08);
+
+            transition: 0.25s ease;
+        }
+
+
+        .outfit-card:hover {
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 12px 25px
+                rgba(115, 78, 130, 0.13);
+        }
+
+
+        .outfit-image {
+            width: 100%;
+
+            height: 190px;
+
+            object-fit: cover;
+
+            display: block;
+
+            border-radius: 15px;
+
+            background: #f1e7f4;
+        }
+
+
+        .outfit-placeholder {
+            width: 100%;
+
+            height: 190px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 15px;
+
+            background: #f7eef9;
+
+            font-size: 48px;
+        }
+
+
+        .outfit-info {
+            padding: 12px 4px 4px;
+        }
+
+
+        .outfit-type {
+            display: inline-block;
+
+            margin-bottom: 6px;
+
+            padding: 5px 10px;
+
+            border-radius: 12px;
+
+            background: #ead9f1;
+
+            color: #76547f;
+
+            font-size: 11px;
+
+            font-weight: 700;
+        }
+
+
+        .outfit-info h3 {
+            margin: 0 0 6px;
+
+            color: #563d60;
+
+            font-size: 16px;
+        }
+
+
+        .outfit-info p {
+            margin: 4px 0;
+
+            color: #806f84;
+
+            font-size: 12px;
+        }
+
+
+        .outfit-note {
+            margin-top: 20px;
+
+            padding: 14px 16px;
+
+            border-radius: 16px;
+
+            background: rgba(255, 255, 255, 0.65);
+
+            color: #705a76;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+        }
+
+        .recommendation-heading {
+            margin-bottom: 22px;
+
+            padding: 24px 26px;
+
+            border-radius: 22px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eee1f3,
+                    #f8e3ea
+                );
+
+            border: 1px solid #ead8ee;
+
+            box-shadow:
+                0 8px 22px
+                rgba(130, 90, 150, 0.08);
+        }
+
+        .recommendation-small {
+            margin: 0 0 6px;
+
+            color: #866795;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            letter-spacing: 1.5px;
+        }
+
+        .recommendation-heading h2 {
+            margin: 0 0 7px;
+
+            color: #563d60;
+
+            font-size: 26px;
+
+            font-weight: 700;
+        }
+
+        .recommendation-heading p {
+            margin: 0;
+
+            color: #77647b;
+
+            font-size: 14px;
+        }
+
+
+        /* ================================
+           CLOTHING CARD GRID
+        ================================= */
+
+        .recommendation-cards {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fill,
+                    minmax(220px, 1fr)
+                );
+
+            gap: 22px;
+        }
+
+
+        /* ================================
+           BASE CLOTHING CARD
+        ================================= */
+
+        .weather-item-card {
+            border-radius: 22px;
+
+            padding: 14px;
+
+            box-shadow:
+                0 8px 24px
+                rgba(115, 78, 130, 0.08);
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
+        }
+
+        .weather-item-card:hover {
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 12px 28px
+                rgba(115, 78, 130, 0.14);
+        }
+
+
+        /* ================================
+           SUMMER CARD
+           Very light pastel yellow
+        ================================= */
+
+        .summer-card {
+            background: #fffdf1;
+
+            border: 1px solid #eee6bd;
+        }
+
+
+        /* ================================
+           RAINY CARD
+           Very light pastel blue
+        ================================= */
+
+        .rainy-card {
+            background: #f3f9fc;
+
+            border: 1px solid #dbeaf1;
+        }
+
+
+        /* ================================
+           WINTER CARD
+           Very light pastel lavender
+        ================================= */
+
+        .winter-card {
+            background: #f7f2fa;
+
+            border: 1px solid #e5d9ec;
+        }
+
+
+        /* ================================
+           CLOTHING IMAGE
+        ================================= */
+
+        .weather-item-image {
+            width: 100%;
+
+            height: 210px;
+
+            object-fit: cover;
+
+            display: block;
+
+            border-radius: 16px;
+
+            background: #f1e7f4;
+        }
+
+
+        /* ================================
+           IMAGE PLACEHOLDER
+        ================================= */
+
+        .weather-image-placeholder {
+            width: 100%;
+
+            height: 210px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 16px;
+
+            background: rgba(255, 255, 255, 0.55);
+
+            font-size: 55px;
+        }
+
+
+        /* ================================
+           CLOTHING INFORMATION
+        ================================= */
+
+        .weather-item-info {
+            padding: 14px 4px 5px;
+        }
+
+        .weather-item-info h3 {
+            margin: 0 0 7px;
+
+            color: #563d60;
+
+            font-size: 17px;
+
+            font-weight: 650;
+        }
+
+        .weather-item-info p {
+            margin: 4px 0;
+
+            color: #806f84;
+
+            font-size: 13px;
+        }
+
+
+        /* ================================
+           CATEGORY LABEL
+        ================================= */
+
+        .weather-item-category {
+            display: inline-block;
+
+            margin-top: 7px;
+
+            padding: 6px 11px;
+
+            border-radius: 14px;
+
+            background: rgba(255, 255, 255, 0.65);
+
+            color: #745681;
+
+            font-size: 12px;
+
+            font-weight: 600;
+        }
+
+
+        /* ================================
+           NO ITEMS MESSAGE
+        ================================= */
+
+        .no-weather-items {
+            padding: 28px;
+
+            text-align: center;
+
+            background: #fffafc;
+
+            border: 1px solid #eadcef;
+
+            border-radius: 22px;
+
+            color: #77647b;
+
+            box-shadow:
+                0 8px 22px
+                rgba(115, 78, 130, 0.07);
+        }
+
+
+        /* ================================
+           MOBILE
+        ================================= */
+
+        @media (max-width: 768px) {
+
+            .weather-content {
+                padding: 20px;
+            }
+
+            .weather-header h1 {
+                font-size: 28px;
+            }
+
+            .recommendation-heading {
+                padding: 20px;
+            }
+
+            .recommendation-heading h2 {
+                font-size: 23px;
+            }
+
+            .recommendation-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .weather-item-image,
+            .weather-image-placeholder {
+                height: 230px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="dashboard">
+
+
+    <!-- ================================
+         SIDEBAR
+    ================================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            ✦
+
+            <span>
+                CLOSELIER
+            </span>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <a href="/dashboard"
+               class="nav-item">
+
+                <span>⌂</span>
+                Dashboard
+
+            </a>
+
+
+            <a href="/wardrobe"
+               class="nav-item">
+
+                <span>♡</span>
+                My Wardrobe
+
+            </a>
+
+
+            <a href="/ai-styling"
+               class="nav-item">
+
+                <span>✦</span>
+                AI Styling
+
+            </a>
+
+
+            <a href="/accessories"
+               class="nav-item">
+
+                <span>✧</span>
+                Accessories
+
+            </a>
+
+
+            <a href="/weather-styling"
+               class="nav-item active">
+
+                <span>☀</span>
+                Weather Styling
+
+            </a>
+
+
+            <a href="/shopping-assistant"
+               class="nav-item">
+
+                <span>🛍</span>
+                Shopping Assistant
+
+            </a>
+
+
+            <a href="/packing-planner"
+               class="nav-item">
+
+                <span>✈</span>
+                Packing Planner
+
+            </a>
+
+            <a href="/saved-outfits" class="nav-item">
+                <span>♡</span>
+                Saved Outfits
+            </a>
+
+
+            <a href="/profile"
+               class="nav-item">
+
+                <span>☁</span>
+                My Profile
+
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <a href="/logout"
+               class="nav-item">
+
+                <span>↪</span>
+                Logout
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- ================================
+         MAIN CONTENT
+    ================================= -->
+
+    <main class="dashboard-main">
+
+
+        <div class="weather-content">
+
+
+            <!-- WEATHER HEADER -->
+
+            <div class="weather-header">
+
+                <p class="welcome-small">
+                    SMART STYLE ✨
+                </p>
+
+                <h1>
+                    Weather Styling
+                </h1>
+
+                <p>
+                    Get outfit suggestions based on your current weather.
+                </p>
+
+            </div>
+
+
+
+            <!-- WEATHER DETECTION CARD -->
+
+            <div class="weather-card">
+
+                <div class="weather-icon">
+                    🌤️
+                </div>
+
+
+                <h2>
+                    Let's check your weather
+                </h2>
+
+
+                <p>
+                    We'll automatically detect your location and check
+                    the current weather for you.
+                </p>
+
+
+                <div id="weather-status"
+                     class="weather-status">
+
+                    Ready to detect your weather.
+
+                </div>
+
+
+                <br>
+
+
+                <button
+                    id="detect-button"
+                    class="detect-button"
+                    onclick="detectWeather()">
+
+                    📍 Detect My Weather
+
+                </button>
+
+            </div>
+
+
+
+            <!-- ================================
+                 RECOMMENDATIONS
+            ================================= -->
+
+            <div
+                id="weather-recommendations"
+                class="weather-recommendations"
+                style="display: none;"
+            >
+
+            <div class="outfit-section">
+
+                <div class="outfit-heading">
+
+                    <p class="outfit-small">
+                        ✨ SMART OUTFIT
+                    </p>
+
+                    <h2>
+                        Your Suggested Outfit
+                    </h2>
+
+                    <p>
+                        A weather-friendly outfit selected
+                        from your wardrobe.
+                    </p>
+
+                </div>
+
+                <div
+                    id="outfit-cards"
+                    class="outfit-cards"
+                >
+                </div>
+
+                <div
+                    id="outfit-note"
+                    class="outfit-note"
+                >
+                    💡 Your outfit is selected using
+                    weather-based styling rules.
+                </div>
+
+            </div>
+
+
+                <div class="recommendation-heading">
+
+                    <p class="recommendation-small">
+                        YOUR WARDROBE ✨
+                    </p>
+
+
+                    <h2 id="recommendation-title">
+                        Weather-Friendly Picks
+                    </h2>
+
+
+                    <p id="recommendation-description">
+                        Outfits selected from your wardrobe
+                        for today's weather.
+                    </p>
+
+                </div>
+
+
+                <div
+                    id="recommendation-cards"
+                    class="recommendation-cards"
+                >
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </main>
+
+
+</div>
+
+
+
+<script>
+
+
+/* =========================================
+   DETECT WEATHER
+========================================= */
+
+function detectWeather() {
+
+
+    const status =
+        document.getElementById(
+            "weather-status"
+        );
+
+
+    const recommendationSection =
+        document.getElementById(
+            "weather-recommendations"
+        );
+
+
+    const recommendationCards =
+        document.getElementById(
+            "recommendation-cards"
+        );
+
+
+    status.innerText =
+        "📍 Getting your location...";
+
+
+    recommendationSection.style.display =
+        "none";
+
+
+    recommendationCards.innerHTML =
+        "";
+
+
+    if (!navigator.geolocation) {
+
+        status.innerText =
+            "Location detection is not supported by your browser.";
+
+        return;
+
+    }
+
+
+    navigator.geolocation.getCurrentPosition(
+
+
+        function(position) {
+
+
+            const latitude =
+                position.coords.latitude;
+
+
+            const longitude =
+                position.coords.longitude;
+
+
+            status.innerText =
+                "🌤️ Checking current weather...";
+
+
+            fetch(
+                `/get-weather?latitude=${latitude}&longitude=${longitude}`
+            )
+
+
+            .then(response =>
+                response.json()
+            )
+
+
+            .then(data => {
+
+
+                if (data.error) {
+
+                    status.innerText =
+                        "⚠️ " + data.error;
+
+                    return;
+
+                }
+
+
+                /* =========================
+                   SHOW WEATHER
+                ========================== */
+
+                status.innerHTML =
+                    `🌡️ ${data.temperature}°C
+                    &nbsp; | &nbsp;
+                    ${data.condition}
+                    <br>
+                    <strong>
+                        ✨ ${data.weather_category}
+                    </strong>
+                    <br>
+                    <small>
+                        ${data.description}
+                    </small>`;
+
+
+                /* =========================
+                   SHOW RECOMMENDATIONS
+                ========================== */
+
+                recommendationSection.style.display =
+                    "block";
+
+
+                document.getElementById(
+                    "recommendation-title"
+                ).innerText =
+                    `${data.weather_category} Picks`;
+
+
+                document.getElementById(
+                    "recommendation-description"
+                ).innerText =
+                    `Clothing from your wardrobe suitable for ${data.weather_category.toLowerCase()}.`;
+
+
+                displayRecommendations(
+                    data.recommended_items,
+                    data.weather_category
+                );
+
+                displayOutfit(
+                    data.outfit,
+                    data.weather_category
+                );
+
+
+            })
+
+
+            .catch(error => {
+
+                console.error(error);
+
+                status.innerText =
+                    "⚠️ Unable to get weather information.";
+
+            });
+
+
+        },
+
+
+        function(error) {
+
+            status.innerText =
+                "⚠️ Location permission was not granted.";
+
+        }
+
+    );
+
+}
+
+
+
+/* =========================================
+   DISPLAY CLOTHING CARDS
+========================================= */
+
+function displayRecommendations(
+    items,
+    weatherCategory
+) {
+
+
+    const container =
+        document.getElementById(
+            "recommendation-cards"
+        );
+
+
+    container.innerHTML =
+        "";
+
+
+    if (!items || items.length === 0) {
+
+
+        container.innerHTML = `
+            <div class="no-weather-items">
+
+                <div style="font-size: 42px;">
+                    👗
+                </div>
+
+                <h3>
+                    No ${weatherCategory} items yet
+                </h3>
+
+                <p>
+                    Add some ${weatherCategory}
+                    clothing to your wardrobe
+                    to see recommendations here.
+                </p>
+
+            </div>
+        `;
+
+
+        return;
+
+    }
+
+
+    let cardClass =
+        "summer-card";
+
+
+    if (
+        weatherCategory === "Rainy Style"
+    ) {
+
+        cardClass =
+            "rainy-card";
+
+    }
+
+
+    else if (
+        weatherCategory === "Winter Style"
+    ) {
+
+        cardClass =
+            "winter-card";
+
+    }
+
+
+    items.forEach(item => {
+
+
+        let imageHTML = "";
+
+
+        if (item.image) {
+
+            imageHTML = `
+                <img
+                    src="/static/uploads/${item.image}"
+                    alt="${item.name}"
+                    class="weather-item-image"
+                >
+            `;
+
+        }
+
+
+        else {
+
+            imageHTML = `
+                <div class="weather-image-placeholder">
+                    👗
+                </div>
+            `;
+
+        }
+
+
+        container.innerHTML += `
+
+            <div class="
+                weather-item-card
+                ${cardClass}
+            ">
+
+                ${imageHTML}
+
+
+                <div class="weather-item-info">
+
+                    <h3>
+                        ${item.name}
+                    </h3>
+
+
+                    <p>
+                        Color: ${item.color}
+                    </p>
+
+
+                    <p>
+                        Occasion: ${item.occasion}
+                    </p>
+
+
+                    <span class="weather-item-category">
+                        ${item.category}
+                    </span>
+
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+function displayOutfit(outfit, weatherCategory) {
+
+    const container =
+        document.getElementById("outfit-cards");
+
+    if (!outfit || outfit.length === 0) {
+        return;
+    }
+
+    outfit.forEach(item => {
+
+        let imageHTML = "";
+
+        if (item.image) {
+
+            imageHTML = `
+                <img
+                    src="/static/uploads/${item.image}"
+                    alt="${item.name}"
+                    class="weather-item-image"
+                >
+            `;
+
+        } else {
+
+            imageHTML = `
+                <div class="weather-image-placeholder">
+                    👗
+                </div>
+            `;
+
+        }
+
+        container.innerHTML += `
+            <div class="weather-item-card summer-card">
+
+                ${imageHTML}
+
+                <div class="weather-item-info">
+
+                    <h3>${item.name}</h3>
+
+                    <p>Color: ${item.color}</p>
+
+                    <p>Occasion: ${item.occasion}</p>
+
+                    <span class="weather-item-category">
+                        ${item.category}
+                    </span>
+
+                </div>
+
+            </div>
+        `;
+
+    });
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
