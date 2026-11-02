@@ -2355,14 +2355,9 @@ def packing_planner():
 # START APPLICATION
 # ================================
 
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+create_database()
+
 if __name__ == "__main__":
-
-    os.makedirs(
-        UPLOAD_FOLDER,
-        exist_ok=True
-    )
-
-    create_database()
-
-    if __name__ == "__main__":
-        app.run(debug=True) 
+    app.run(debug=True)
